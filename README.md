@@ -1,6 +1,6 @@
 About: 
 - Uses the Express.js framework in Node.js to build the web services with TypeScript.
-- Uses the drizzle ORM with an in-memory PostgreSQL DB as the data source. 
+- Uses the drizzle ORM with an in-memory PostgreSQL DB (Using PGLite Driver) as the data source.
 
 Instructions on Use
 1. Build Docker Image: docker build -t fetch-rewards-receipt-processor .
