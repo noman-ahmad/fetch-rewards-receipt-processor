@@ -1,7 +1,5 @@
 import { PGlite } from "@electric-sql/pglite";
 import { drizzle } from "drizzle-orm/pglite";
-import { v4 as uuidv4 } from "uuid";
-import { receiptItems, receipts } from "./schema/receipts";
 import * as schema from "./schema";
 
 // This is what creates the in-memory postgres db
@@ -33,43 +31,4 @@ export async function seedDbTables() {
     console.error("Error Instantiating In-Memory Database Tables", error);
     throw error;
   }
-}
-
-export async function insertIntoTable() {
-  // Generate a UUID for the receipt
-  const receiptId = uuidv4();
-
-  // Insert the receipt
-  await db.insert(receipts).values([
-    {
-      id: receiptId,
-      retailer: "Walmart",
-      purchaseDate: "2025-01-30",
-      purchaseTime: "08:25",
-      total: "25.9",
-    },
-  ]);
-
-  // Insert related receipt items using the same receiptId
-  await db.insert(receiptItems).values([
-    {
-      id: uuidv4(),
-      shortDescription: "Milk",
-      price: "2.99",
-      receiptId: receiptId,
-    },
-    {
-      id: uuidv4(),
-      shortDescription: "Bread",
-      price: "1.5",
-      receiptId: receiptId,
-    },
-  ]);
-
-  const allReceipts = await db.query.receipts.findMany({
-    with: {
-      receiptItems: true,
-    },
-  });
-  console.log(JSON.stringify(allReceipts));
 }
